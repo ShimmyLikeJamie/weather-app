@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+  </head>
+  <body>
+    <div id="topbar">
+      <span id="logoContainer">
+        <img id="logo" src="styles/media/openweatherlogo.png" />
+      </span>
+      <span id="searchContainer">
+          <input type='text' id='searchBar' placeholder="Search for a city">
+          <button id='searchButton'>Search</button>
+      </span>
+      <span id="CorF">
+          <button id='CorFButton'>
+              <strong>C°</strong>
+              /F°
+          </button>
+      </span>
+    </div>
+    <div id="overview">
+      <span id="today"></span>
+      <span id="forecast"></span>
+      <div id="description"></div>
+    </div>
+    <div id="details"></div>
+    <div id="forecastDetails">
+      <table id="forecastTable">
+        <tr>
+          <th>Day</th>
+          <th>Chance of Rain</th>
+          <th>Humidity</th>
+          <th>Temperature</th>
+        </tr>
+      </table>
+    </div>
+  </body>
+  <footer>
+    <script src="bundle.js"></script>
+  </footer>
+</html>

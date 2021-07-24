@@ -1,0 +1,110 @@
+html,
+body {
+  height: auto;
+  width: auto;
+  min-width: 750px;
+  background-color: #c7ecff;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#topbar,
+#details {
+  background-color: #2e2c30;
+  min-width: 750px;
+}
+
+#topbar {
+  height: 100px;
+  width: 100%;
+}
+
+#overview {
+  height: 40%;
+}
+
+#details {
+  height: 20%;
+}
+
+#forecastDetails {
+  height: 60%;
+}
+
+#logoContainer {
+  width: auto;
+  max-width: 150px;
+  min-width: 80px;
+}
+
+#logo {
+  height: 100%;
+  width: auto;
+  transform: scale(50%);
+}
+
+#searchContainer {
+  display: inline-block;
+  height: 100%;
+  width: 700px;
+  margin-left: 0;
+  transform: translate(0, -40%);
+  min-width: 400px;
+}
+
+#searchBar {
+  width: 500px;
+  min-width: 300px;
+  margin-left: auto;
+  margin-right: 0;
+  font-size: 18px;
+  height: 32px;
+  padding-right: 0;
+  border-bottom-left-radius: .3em;
+  border-top-left-radius: .3em;
+  border-right: none;
+  border-bottom: none;
+  border-top: none;
+  max-width: 100%;
+}
+#searchBar:focus,
+#searchButton:focus {
+  border-color: rgb(128, 189, 255);
+  box-shadow: rgba(0, 123, 255, 0.25) 0px 0px 0px 3.2px;
+}
+#searchBar:focus-visible {
+  outline: none;
+}
+
+#searchButton {
+  white-space: nowrap;
+  margin-left: 0;
+  height: 32px;
+  width: 60px;
+  border: none;
+  display:inline-block;
+  overflow-wrap: normal;
+  transform: translate(-6%, -1%);
+  border-bottom-right-radius: 15%;
+  border-top-right-radius: 15%;
+  background-color: #eb6f4c;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  max-width: 100%;
+}
+
+#CorF {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  background-color: white;
+  transform: translateY(-125%);
+}
+
+#CorFButton {
+  width: 100%;
+  height: 100%;
+  display: inline;
+}
