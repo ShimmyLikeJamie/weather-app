@@ -2,7 +2,7 @@ html,
 body {
   height: auto;
   width: auto;
-  min-width: 750px;
+  min-width: 500px;
   background-color: #c7ecff;
   margin: 0;
   padding: 0;
@@ -12,12 +12,17 @@ body {
 #topbar,
 #details {
   background-color: #2e2c30;
-  min-width: 750px;
+  min-width: 500px;
 }
 
 #topbar {
-  height: 100px;
-  width: 100%;
+  height: 5em;
+  width: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 #overview {
@@ -34,32 +39,39 @@ body {
 
 #logoContainer {
   width: auto;
-  max-width: 150px;
-  min-width: 80px;
+  max-width: 200px;
+  height: auto;
+  order: 1;
+  display: inline-block;
+  text-align: center;
 }
 
 #logo {
+  object-fit: contain;
   height: 100%;
-  width: auto;
-  transform: scale(50%);
+  width: 100%;
+  display: inline-block;
 }
 
 #searchContainer {
   display: inline-block;
-  height: 100%;
-  width: 700px;
+  width: auto;
+  min-width: 2em;
   margin-left: 0;
-  transform: translate(0, -40%);
-  min-width: 400px;
+  order: 2;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 2;
 }
 
 #searchBar {
-  width: 500px;
-  min-width: 300px;
+  width: auto;
+  min-width: 75%;
   margin-left: auto;
   margin-right: 0;
-  font-size: 18px;
-  height: 32px;
+  font-size: auto;
+  height: 3em;
   padding-right: 0;
   border-bottom-left-radius: .3em;
   border-top-left-radius: .3em;
@@ -67,6 +79,8 @@ body {
   border-bottom: none;
   border-top: none;
   max-width: 100%;
+  display: inline;
+  vertical-align: center;
 }
 #searchBar:focus,
 #searchButton:focus {
@@ -80,12 +94,13 @@ body {
 #searchButton {
   white-space: nowrap;
   margin-left: 0;
-  height: 32px;
-  width: 60px;
+  margin-top: 1.5em;
+  height: 3em;
+  width: auto;
   border: none;
+  border-left: 0;
   display:inline-block;
   overflow-wrap: normal;
-  transform: translate(-6%, -1%);
   border-bottom-right-radius: 15%;
   border-top-right-radius: 15%;
   background-color: #eb6f4c;
@@ -93,14 +108,17 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   max-width: 100%;
+  transform: translate(-.2em, .08em);
 }
 
 #CorF {
   display: inline-block;
-  width: 100px;
-  height: 30px;
+  width: 8%;
+  height: 2.5em;
+  margin-top: 1.3em;
+  order: 3;
   background-color: white;
-  transform: translateY(-125%);
+  justify-self: center;
 }
 
 #CorFButton {
