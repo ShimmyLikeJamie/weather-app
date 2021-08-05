@@ -8,18 +8,38 @@
         <img id="logo" src="styles/media/openweatherlogo.png" />
       </span>
       <span id="searchContainer">
-          <input type='text' id='searchBar' placeholder="Search for a city">
-          <button id='searchButton'>Search</button>
+        <input type="text" id="searchBar" placeholder="Search for a city" />
+        <button id="searchButton">Search</button>
       </span>
       <span id="CorF">
-          <button id='CorFButton'>
-              <strong id='currentTemp'>F°</strong>
-          </button>
+        <button id="CorFButton">
+          <strong id="currentTemp">F°</strong>
+        </button>
       </span>
     </div>
     <div id="overview">
-      <span id="today"></span>
-      <span id="forecast"></span>
+      <span id="today">
+        <h2 id='todayDay'>Today:</h2>
+        <h2 id='todayCity'></h2>
+        <p id="todayCurrentTemp">Current:</p>
+        <p id="todayMaxTemp">High:</p>
+        <p id="todayMinTemp">Low:</p>
+        <img id='todayWeatherIcon' class='icon'>
+      </span>
+      <span id="forecast">
+        <span class='forecastDay'>
+          <h3 class='day'>00</h3>
+          <p class='temp'>00</p>
+          <p class='maxTemp'>00</p>
+          <p class='minTemp'>00</p>
+          <img class='icon'>
+        </span>
+        <span class='forecastDay'>Test</span>
+        <span class='forecastDay'>Test</span>
+        <span class='forecastDay'>Test</span>
+        <span class='forecastDay'>Test</span>
+        <span class='forecastDay'>Test</span>
+      </span>
       <div id="description"></div>
     </div>
     <div id="details"></div>
@@ -33,6 +53,7 @@
         </tr>
       </table>
     </div>
+    <div id='attribute'>Icons made by <a href="https://www.flaticon.com/authors/iconixar" title="iconixar">iconixar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
   </body>
   <footer>
     <script src="bundle.js"></script>

@@ -27,6 +27,31 @@ body {
 
 #overview {
   height: 40%;
+  display: flex;
+}
+
+#today {
+  order: 1;
+  background-color: blue;
+  min-width: 20%;
+  text-align: center;
+}
+
+#attribute {
+  transform: scale(75%);
+  text-align: center;
+}
+
+#forecast {
+  order: 2;
+  background-color: green;
+  width: auto;
+  min-width: 80%;
+}
+
+.forecastDay {
+  width: 16%;
+  display: inline-block;
 }
 
 #details {
@@ -51,6 +76,7 @@ body {
   height: 100%;
   width: 100%;
   display: inline-block;
+  transform: scale(60%);
 }
 
 #searchContainer {
@@ -73,8 +99,8 @@ body {
   font-size: auto;
   height: 3em;
   padding-right: 0;
-  border-bottom-left-radius: .3em;
-  border-top-left-radius: .3em;
+  border-bottom-left-radius: 0.3em;
+  border-top-left-radius: 0.3em;
   border-right: none;
   border-bottom: none;
   border-top: none;
@@ -83,7 +109,8 @@ body {
   vertical-align: center;
 }
 #searchBar:focus,
-#searchButton:focus {
+#searchButton:focus,
+#CorFButton:focus {
   border-color: rgb(128, 189, 255);
   box-shadow: rgba(0, 123, 255, 0.25) 0px 0px 0px 3.2px;
 }
@@ -99,7 +126,7 @@ body {
   width: auto;
   border: none;
   border-left: 0;
-  display:inline-block;
+  display: inline-block;
   overflow-wrap: normal;
   border-bottom-right-radius: 15%;
   border-top-right-radius: 15%;
@@ -108,7 +135,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   max-width: 100%;
-  transform: translate(-.2em, .08em);
+  transform: translate(-0.2em, 0.08em);
 }
 
 #CorF {
@@ -117,12 +144,15 @@ body {
   height: 2.5em;
   margin-top: 1.3em;
   order: 3;
-  background-color: white;
   justify-self: center;
 }
 
 #CorFButton {
+  color: white;
   width: 100%;
   height: 100%;
   display: inline;
+  background-color: #eb6f4c;
+  border-radius: 1em;
+  border-width: 0;
 }
