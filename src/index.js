@@ -169,7 +169,7 @@ searchButton.onclick = async function () {
     let forecastDay = document.createElement('span');
     forecastDay.classList.add('forecastDay');
 
-    let day = document.createElement('h3');
+    let day = document.createElement('p');
     day.classList.add('day');
     day.textContent =
       getDay(future_dates[i]) +
@@ -177,11 +177,6 @@ searchButton.onclick = async function () {
       getMonth(future_dates[i]) +
       ' ' +
       future_dates[i].getDate();
-
-    let temp = document.createElement('p');
-    temp.classList.add('temp');
-    temp.textContent =
-      'Day: ' + KtoF(data.daily[i + 1].temp.day).toFixed(0) + '°F';
 
     let maxTemp = document.createElement('p');
     maxTemp.classList.add('maxTemp');
@@ -204,7 +199,6 @@ searchButton.onclick = async function () {
     humidity.textContent = data.daily[i + 1].humidity + '%';
 
     forecastDay.append(day);
-    forecastDay.append(temp);
     forecastDay.append(maxTemp);
     forecastDay.append(minTemp);
     forecastDay.append(weatherIcon);
