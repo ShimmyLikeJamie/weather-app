@@ -136,6 +136,7 @@ let forecast = document.getElementById('forecast');
 let todayWeatherIcon = document.getElementById('todayWeatherIcon');
 
 searchButton.onclick = async function () {
+  // Gets weather data and updates page with it
   let user_address = encodeURI('address=' + searchBar.value);
   let geocode_request = 'https://maps.googleapis.com/maps/api/geocode/json?';
   let full_geocode_request =
@@ -152,12 +153,13 @@ searchButton.onclick = async function () {
     theDate.getDate();
 
   todayCurrentTemp.textContent =
-    'Current: ' + KtoF(data.current.temp).toFixed(0) + ' F';
+    'Now: ' + KtoF(data.current.temp).toFixed(0) + '°F';
   todayMaxTemp.textContent =
-    'High: ' + KtoF(data.daily[0].temp.max).toFixed(0) + ' F';
+    'H: ' + KtoF(data.daily[0].temp.max).toFixed(0) + '°F';
   todayMinTemp.textContent =
-    'Low: ' + KtoF(data.daily[0].temp.min).toFixed(0) + ' F';
+    'L: ' + KtoF(data.daily[0].temp.min).toFixed(0) + '°F';
   todayCity.textContent = formattedAddress;
+
 
   todayWeatherIcon.setAttribute(
     'src',
@@ -179,17 +181,17 @@ searchButton.onclick = async function () {
     let temp = document.createElement('p');
     temp.classList.add('temp');
     temp.textContent =
-      'Day: ' + KtoF(data.daily[i + 1].temp.day).toFixed(0) + ' F';
+      'Day: ' + KtoF(data.daily[i + 1].temp.day).toFixed(0) + '°F';
 
     let maxTemp = document.createElement('p');
     maxTemp.classList.add('maxTemp');
     maxTemp.textContent =
-      'H: ' + KtoF(data.daily[i + 1].temp.max).toFixed(0) + ' F';
+      'H: ' + KtoF(data.daily[i + 1].temp.max).toFixed(0) + '°F';
 
     let minTemp = document.createElement('p');
     minTemp.classList.add('minTemp');
     minTemp.textContent =
-      'L: ' + KtoF(data.daily[i + 1].temp.min).toFixed() + ' F';
+      'L: ' + KtoF(data.daily[i + 1].temp.min).toFixed() + '°F';
 
     let weatherIcon = document.createElement('img');
     weatherIcon.classList.add('weatherIcon');
@@ -197,11 +199,16 @@ searchButton.onclick = async function () {
     let weather = data.daily[i + 1].weather[0].main;
     weatherIcon.setAttribute('src', selectWeatherIcon(weather));
 
+    let humidity = document.createElement('p');
+    humidity.classList.add('humidity');
+    humidity.textContent = data.daily[i + 1].humidity + '%';
+
     forecastDay.append(day);
     forecastDay.append(temp);
     forecastDay.append(maxTemp);
     forecastDay.append(minTemp);
     forecastDay.append(weatherIcon);
+    forecastDay.append(humidity);
     forecast.append(forecastDay);
   }
 };

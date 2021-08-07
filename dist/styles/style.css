@@ -38,6 +38,7 @@ body {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  line-height: .8em;
 }
 
 #attribute {
