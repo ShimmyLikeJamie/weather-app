@@ -124,12 +124,12 @@ async function getWeather(request) {
   }
 }
 
-function prettyDate2(time) {
-  var date = new Date(parseInt(time));
-  return date.toLocaleTimeString(navigator.language, {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+function prettyMinutes(minutes) {
+  if (parseInt(minutes) < 10) {
+    return '0' + minutes;
+  } else {
+    return minutes;
+  }
 }
 
 let searchButton = document.getElementById('searchButton');
@@ -184,12 +184,13 @@ searchButton.onclick = async function () {
   );
 
   let sunriseTime = new Date(data.current.sunrise * 1000);
+
   sunriseData.textContent =
-    sunriseTime.getHours() + ':' + sunriseTime.getMinutes();
+    sunriseTime.getHours() + ':' + prettyMinutes(sunriseTime.getMinutes());
 
   let sunsetTime = new Date(data.current.sunset * 1000);
   sunsetData.textContent =
-    sunsetTime.getHours() + ':' + sunsetTime.getMinutes();
+    sunsetTime.getHours() + ':' + prettyMinutes(sunsetTime.getMinutes());
 
   for (let i = 0; i < future_dates.length; i++) {
     // Iterate through next 6 days and display forecast

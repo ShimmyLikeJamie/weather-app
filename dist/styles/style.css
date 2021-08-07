@@ -75,6 +75,7 @@ span.forecastDay {
   display: flex;
   justify-content: space-evenly;
   flex-flow: column wrap;
+  color: rgb(141, 140, 140);
 }
 
 #forecastDetails {
