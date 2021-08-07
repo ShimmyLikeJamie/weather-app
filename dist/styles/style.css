@@ -110,7 +110,8 @@ span.forecastDay {
   flex-grow: 2;
 }
 
-#topDetailsRow, #bottomDetailsRow {
+#topDetailsRow,
+#bottomDetailsRow {
   min-width: 100%;
   display: flex;
   flex-flow: row wrap;
@@ -181,4 +182,17 @@ span.forecastDay {
   background-color: #eb6f4c;
   border-radius: 1em;
   border-width: 0;
+}
+
+#sunrise,
+#sunset,
+#chanceOfRain,
+#humidity,
+#wind,
+#feelsLike,
+#precipitation,
+#pressure,
+#visibility,
+#uvIndex {
+  text-align: center;
 }

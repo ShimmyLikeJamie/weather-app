@@ -124,6 +124,14 @@ async function getWeather(request) {
   }
 }
 
+function prettyDate2(time) {
+  var date = new Date(parseInt(time));
+  return date.toLocaleTimeString(navigator.language, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 let searchButton = document.getElementById('searchButton');
 let searchBar = document.getElementById('searchBar');
 let currentTemp = document.getElementById('currentTemp');
@@ -134,6 +142,16 @@ let todayMinTemp = document.getElementById('todayMinTemp');
 let todayCity = document.getElementById('todayCity');
 let forecast = document.getElementById('forecast');
 let todayWeatherIcon = document.getElementById('todayWeatherIcon');
+let sunriseData = document.getElementById('sunriseData');
+let sunsetData = document.getElementById('sunsetData');
+let chanceOfRainData = document.getElementById('chanceOfRainData');
+let humidityData = document.getElementById('humidityData');
+let windData = document.getElementById('windData');
+let feelsLikeData = document.getElementById('feelsLikeData');
+let precipitationData = document.getElementById('precipitationData');
+let pressureData = document.getElementById('pressureData');
+let visibilityData = document.getElementById('visibilityData');
+let uvIndexData = document.getElementById('uvIndexData');
 
 searchButton.onclick = async function () {
   // Gets weather data and updates page with it
@@ -160,12 +178,21 @@ searchButton.onclick = async function () {
     'L: ' + KtoF(data.daily[0].temp.min).toFixed(0) + '°F';
   todayCity.textContent = formattedAddress;
 
-
   todayWeatherIcon.setAttribute(
     'src',
     selectWeatherIcon(data.daily[0].weather[0].main)
   );
+
+  let sunriseTime = new Date(data.current.sunrise * 1000);
+  sunriseData.textContent =
+    sunriseTime.getHours() + ':' + sunriseTime.getMinutes();
+
+  let sunsetTime = new Date(data.current.sunset * 1000);
+  sunsetData.textContent =
+    sunsetTime.getHours() + ':' + sunsetTime.getMinutes();
+
   for (let i = 0; i < future_dates.length; i++) {
+    // Iterate through next 6 days and display forecast
     let forecastDay = document.createElement('span');
     forecastDay.classList.add('forecastDay');
 
