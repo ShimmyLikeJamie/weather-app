@@ -2,72 +2,62 @@ import 'babel-polyfill';
 import { GOOGLE_KEY, OPENWEATHER_KEY } from './secret';
 
 let theDate = new Date();
-let currentDay = '';
-let currentMonth = theDate.getMonth();
-let currentDate = theDate.getDate();
 let formattedAddress = '';
+let future_dates = [];
 
-switch (theDate.getDay()) {
-  case 0:
-    currentDay = 'Sun';
-    break;
-  case 1:
-    currentDay = 'Mon';
-    break;
-  case 2:
-    currentDay = 'Tue';
-    break;
-  case 3:
-    currentDay = 'Wed';
-    break;
-  case 4:
-    currentDay = 'Thu';
-    break;
-  case 5:
-    currentDay = 'Fri';
-    break;
-  case 6:
-    currentDay = 'Sat';
-    break;
+for (let i = 0; i < 6; i++) {
+  //Create dates for next six days
+  let future_date = new Date();
+  future_date.setDate(new Date().getDate() + (i + 1));
+  future_dates.push(future_date);
 }
 
-switch (currentMonth) {
-  case 0:
-    currentMonth = 'Jan';
-    break;
-  case 1:
-    currentMonth = 'Feb';
-    break;
-  case 2:
-    currentMonth = 'Mar';
-    break;
-  case 3:
-    currentMonth = 'Apr';
-    break;
-  case 4:
-    currentMonth = 'May';
-    break;
-  case 5:
-    currentMonth = 'Jun';
-    break;
-  case 6:
-    currentMonth = 'Jul';
-    break;
-  case 7:
-    currentMonth = 'Aug';
-    break;
-  case 8:
-    currentMonth = 'Sep';
-    break;
-  case 9:
-    currentMonth = 'Oct';
-    break;
-  case 10:
-    currentMonth = 'Nov';
-    break;
-  case 11:
-    currentMonth = 'Dec';
-    break;
+function getDay(date) {
+  switch (date.getDay()) {
+    case 0:
+      return 'Sun';
+    case 1:
+      return 'Mon';
+    case 2:
+      return 'Tue';
+    case 3:
+      return 'Wed';
+    case 4:
+      return 'Thu';
+    case 5:
+      return 'Fri';
+    case 6:
+      return 'Sat';
+  }
+}
+
+function getMonth(date) {
+  switch (date.getMonth()) {
+    case 0:
+      return 'Jan';
+    case 1:
+      return 'Feb';
+    case 2:
+      return 'Mar';
+    case 3:
+      return 'Apr';
+    case 4:
+      return 'May';
+    case 5:
+      return 'Jun';
+    case 6:
+      return 'Jul';
+    case 7:
+      return 'Aug';
+    case 8:
+      return 'Sep';
+    case 9:
+      return 'Oct';
+    case 10:
+      return 'Nov';
+    case 11:
+      return 'Dec';
+  }
 }
 
 function KtoF(temp) {
@@ -128,6 +118,7 @@ let todayCurrentTemp = document.getElementById('todayCurrentTemp');
 let todayMaxTemp = document.getElementById('todayMaxTemp');
 let todayMinTemp = document.getElementById('todayMinTemp');
 let todayCity = document.getElementById('todayCity');
+let forecast = document.getElementById('forecast')
 
 searchButton.onclick = async function () {
   let user_address = encodeURI('address=' + searchBar.value);
@@ -138,7 +129,13 @@ searchButton.onclick = async function () {
   console.log(data);
 
   todayDay.textContent =
-    'Today: ' + currentDay + ' ' + currentMonth + ' ' + currentDate;
+    'Today: ' +
+    getDay(theDate) +
+    ' ' +
+    getMonth(theDate) +
+    ' ' +
+    theDate.getDate();
+
   todayCurrentTemp.textContent =
     'Current: ' + KtoF(data.current.temp).toFixed(2) + ' F';
   todayMaxTemp.textContent =
@@ -146,4 +143,54 @@ searchButton.onclick = async function () {
   todayMinTemp.textContent =
     'Min: ' + KtoF(data.daily[0].temp.min).toFixed(2) + ' F';
   todayCity.textContent = formattedAddress;
+
+  for (let i = 0; i < future_dates.length; i++) {
+    let forecastDay = document.createElement('span');
+    forecastDay.classList.add('forecastDay');
+
+    let day = document.createElement('h3');
+    day.classList.add('day');
+    day.textContent =
+      getDay(future_dates[i]) +
+      ' ' +
+      getMonth(future_dates[i]) +
+      ' ' +
+      future_dates[i].getDate();
+
+    let temp = document.createElement('p');
+    temp.classList.add('temp');
+    temp.textContent = KtoF(data.daily[i + 1].temp.day).toFixed(2) + ' F';
+
+    let maxTemp = document.createElement('p');
+    maxTemp.classList.add('maxTemp');
+    maxTemp.textContent = KtoF(data.daily[i + 1].temp.max).toFixed(2) + ' F';
+
+    let minTemp = document.createElement('p');
+    minTemp.classList.add('minTemp');
+    minTemp.textContent = KtoF(data.daily[i + 1].temp.min).toFixed(2) + ' F';
+
+    let weatherIcon = document.createElement('img');
+    weatherIcon.classList.add('weatherIcon');
+
+    let weather = data.daily[i + 1].weather[0].main;
+
+    if (weather == 'Clouds') {
+      weatherIcon.setAttribute('src', 'styles/media/011-cloudy.svg');
+    } else if (weather == 'Clear') {
+      weatherIcon.setAttribute('src', 'styles/media/015-day.svg');
+    } else if (weather == 'Rain') {
+      weatherIcon.setAttribute('src', 'styles/media/003-rainy.svg');
+    } else if (weather == 'Snow') {
+      weatherIcon.setAttribute('src', 'styles/media/006-snowy.svg');
+    } else {
+      weatherIcon.setAttribute('src', 'styles/media/015-day.svg');
+    }
+
+    forecastDay.append(day);
+    forecastDay.append(temp);
+    forecastDay.append(maxTemp);
+    forecastDay.append(minTemp);
+    forecastDay.append(weatherIcon);
+    forecast.append(forecastDay);
+  }
 };
