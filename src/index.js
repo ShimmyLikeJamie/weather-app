@@ -98,6 +98,20 @@ async function getLocation(request) {
   }
 }
 
+function selectWeatherIcon(weather) {
+  if (weather == 'Clouds') {
+    return 'styles/media/011-cloudy.svg';
+  } else if (weather == 'Clear') {
+    return 'styles/media/015-day.svg';
+  } else if (weather == 'Rain') {
+    return 'styles/media/003-rainy.svg';
+  } else if (weather == 'Snow') {
+    return 'styles/media/006-snowy.svg';
+  } else {
+    return 'styles/media/015-day.svg';
+  }
+}
+
 async function getWeather(request) {
   //Gets weather data for location
   try {
@@ -118,7 +132,8 @@ let todayCurrentTemp = document.getElementById('todayCurrentTemp');
 let todayMaxTemp = document.getElementById('todayMaxTemp');
 let todayMinTemp = document.getElementById('todayMinTemp');
 let todayCity = document.getElementById('todayCity');
-let forecast = document.getElementById('forecast')
+let forecast = document.getElementById('forecast');
+let todayWeatherIcon = document.getElementById('todayWeatherIcon');
 
 searchButton.onclick = async function () {
   let user_address = encodeURI('address=' + searchBar.value);
@@ -137,13 +152,17 @@ searchButton.onclick = async function () {
     theDate.getDate();
 
   todayCurrentTemp.textContent =
-    'Current: ' + KtoF(data.current.temp).toFixed(2) + ' F';
+    'Current: ' + KtoF(data.current.temp).toFixed(0) + ' F';
   todayMaxTemp.textContent =
-    'Max: ' + KtoF(data.daily[0].temp.max).toFixed(2) + ' F';
+    'High: ' + KtoF(data.daily[0].temp.max).toFixed(0) + ' F';
   todayMinTemp.textContent =
-    'Min: ' + KtoF(data.daily[0].temp.min).toFixed(2) + ' F';
+    'Low: ' + KtoF(data.daily[0].temp.min).toFixed(0) + ' F';
   todayCity.textContent = formattedAddress;
 
+  todayWeatherIcon.setAttribute(
+    'src',
+    selectWeatherIcon(data.daily[0].weather[0].main)
+  );
   for (let i = 0; i < future_dates.length; i++) {
     let forecastDay = document.createElement('span');
     forecastDay.classList.add('forecastDay');
@@ -159,32 +178,24 @@ searchButton.onclick = async function () {
 
     let temp = document.createElement('p');
     temp.classList.add('temp');
-    temp.textContent = KtoF(data.daily[i + 1].temp.day).toFixed(2) + ' F';
+    temp.textContent =
+      'Day: ' + KtoF(data.daily[i + 1].temp.day).toFixed(0) + ' F';
 
     let maxTemp = document.createElement('p');
     maxTemp.classList.add('maxTemp');
-    maxTemp.textContent = KtoF(data.daily[i + 1].temp.max).toFixed(2) + ' F';
+    maxTemp.textContent =
+      'H: ' + KtoF(data.daily[i + 1].temp.max).toFixed(0) + ' F';
 
     let minTemp = document.createElement('p');
     minTemp.classList.add('minTemp');
-    minTemp.textContent = KtoF(data.daily[i + 1].temp.min).toFixed(2) + ' F';
+    minTemp.textContent =
+      'L: ' + KtoF(data.daily[i + 1].temp.min).toFixed() + ' F';
 
     let weatherIcon = document.createElement('img');
     weatherIcon.classList.add('weatherIcon');
 
     let weather = data.daily[i + 1].weather[0].main;
-
-    if (weather == 'Clouds') {
-      weatherIcon.setAttribute('src', 'styles/media/011-cloudy.svg');
-    } else if (weather == 'Clear') {
-      weatherIcon.setAttribute('src', 'styles/media/015-day.svg');
-    } else if (weather == 'Rain') {
-      weatherIcon.setAttribute('src', 'styles/media/003-rainy.svg');
-    } else if (weather == 'Snow') {
-      weatherIcon.setAttribute('src', 'styles/media/006-snowy.svg');
-    } else {
-      weatherIcon.setAttribute('src', 'styles/media/015-day.svg');
-    }
+    weatherIcon.setAttribute('src', selectWeatherIcon(weather));
 
     forecastDay.append(day);
     forecastDay.append(temp);
