@@ -74,25 +74,7 @@ span.forecastDay {
   height: 10em;
   display: flex;
   justify-content: space-evenly;
-  flex-direction: column;
-}
-
-#detailsTopRow {
-  display: inline-flex;
-  text-align: center;
-  justify-content: space-evenly;
-  flex-direction: column;
-  order: 1;
-}
-
-#detailsBottomRow {
-  order: 2;
-}
-
-ul li {
-  list-style-type: none;
-  display: inline-block;
-  width: 19.25%;
+  flex-flow: column wrap;
 }
 
 #forecastDetails {
@@ -126,6 +108,13 @@ ul li {
   align-items: center;
   justify-content: center;
   flex-grow: 2;
+}
+
+#topDetailsRow, #bottomDetailsRow {
+  min-width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
 }
 
 #searchBar {
