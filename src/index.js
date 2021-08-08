@@ -4,6 +4,32 @@ import { GOOGLE_KEY, OPENWEATHER_KEY } from './secret';
 let theDate = new Date();
 let formattedAddress = '';
 let future_dates = [];
+let searchButton = document.getElementById('searchButton');
+let searchBar = document.getElementById('searchBar');
+let currentTemp = document.getElementById('currentTemp');
+let todayDay = document.getElementById('todayDay');
+let todayCurrentTemp = document.getElementById('todayCurrentTemp');
+let todayMaxTemp = document.getElementById('todayMaxTemp');
+let todayMinTemp = document.getElementById('todayMinTemp');
+let todayCity = document.getElementById('todayCity');
+let forecast = document.getElementById('forecast');
+let todayWeatherIcon = document.getElementById('todayWeatherIcon');
+let sunriseData = document.getElementById('sunriseData');
+let sunsetData = document.getElementById('sunsetData');
+let chanceOfRainData = document.getElementById('chanceOfRainData');
+let humidityData = document.getElementById('humidityData');
+let windData = document.getElementById('windData');
+let feelsLikeData = document.getElementById('feelsLikeData');
+let pressureData = document.getElementById('pressureData');
+let visibilityData = document.getElementById('visibilityData');
+let uvIndexData = document.getElementById('uvIndexData');
+let units = '';
+
+if (currentTemp.textContent.includes('F')) {
+  units = 'imperial';
+} else {
+  units = 'metric';
+}
 
 function degToCompass(num) {
   // Taken from stack overflow and modified for JS
@@ -85,11 +111,6 @@ function getMonth(date) {
   }
 }
 
-function KtoF(temp) {
-  let fahrenheit = ((temp - 273.15) * 9) / 5 + 32;
-  return fahrenheit;
-}
-
 function FtoC(temp) {
   let celsius = ((temp - 32) * 5) / 9;
   return celsius;
@@ -112,7 +133,7 @@ async function getLocation(request) {
 
     let weather_request = 'https://api.openweathermap.org/data/2.5/onecall?';
     let weather_uri = encodeURI(
-      `lat=${lat}&lon=${lng}&appid=` + OPENWEATHER_KEY
+      `lat=${lat}&lon=${lng}&units=${units}&appid=` + OPENWEATHER_KEY
     );
     let full_weather_request = weather_request + weather_uri;
 
@@ -157,26 +178,6 @@ function prettyMinutes(minutes) {
   }
 }
 
-let searchButton = document.getElementById('searchButton');
-let searchBar = document.getElementById('searchBar');
-let currentTemp = document.getElementById('currentTemp');
-let todayDay = document.getElementById('todayDay');
-let todayCurrentTemp = document.getElementById('todayCurrentTemp');
-let todayMaxTemp = document.getElementById('todayMaxTemp');
-let todayMinTemp = document.getElementById('todayMinTemp');
-let todayCity = document.getElementById('todayCity');
-let forecast = document.getElementById('forecast');
-let todayWeatherIcon = document.getElementById('todayWeatherIcon');
-let sunriseData = document.getElementById('sunriseData');
-let sunsetData = document.getElementById('sunsetData');
-let chanceOfRainData = document.getElementById('chanceOfRainData');
-let humidityData = document.getElementById('humidityData');
-let windData = document.getElementById('windData');
-let feelsLikeData = document.getElementById('feelsLikeData');
-let pressureData = document.getElementById('pressureData');
-let visibilityData = document.getElementById('visibilityData');
-let uvIndexData = document.getElementById('uvIndexData');
-
 searchButton.onclick = async function () {
   // Gets weather data and updates page with it
   let user_address = encodeURI('address=' + searchBar.value);
@@ -194,13 +195,19 @@ searchButton.onclick = async function () {
     ' ' +
     theDate.getDate();
 
-  todayCurrentTemp.textContent =
-    'Now: ' + KtoF(data.current.temp).toFixed(0) + '°F';
-  todayMaxTemp.textContent =
-    'H: ' + KtoF(data.daily[0].temp.max).toFixed(0) + '°F';
-  todayMinTemp.textContent =
-    'L: ' + KtoF(data.daily[0].temp.min).toFixed(0) + '°F';
   todayCity.textContent = formattedAddress;
+
+  if (units == 'imperial') {
+    todayCurrentTemp.textContent =
+      'Now: ' + data.current.temp.toFixed(1) + '°F';
+    todayMaxTemp.textContent = 'H: ' + data.daily[0].temp.max.toFixed(1) + '°F';
+    todayMinTemp.textContent = 'L: ' + data.daily[0].temp.min.toFixed(1) + '°F';
+  } else {
+    todayCurrentTemp.textContent =
+      'Now: ' + data.current.temp.toFixed(1) + '°C';
+    todayMaxTemp.textContent = 'H: ' + data.daily[0].temp.max.toFixed(1) + '°C';
+    todayMinTemp.textContent = 'L: ' + data.daily[0].temp.min.toFixed(1) + '°C';
+  }
 
   todayWeatherIcon.setAttribute(
     'src',
@@ -218,19 +225,28 @@ searchButton.onclick = async function () {
 
   chanceOfRainData.textContent = data.daily[0].pop;
   humidityData.textContent = data.current.humidity + '%';
-  windData.textContent =
+  if (units == 'imperial') {
+    windData.textContent =
+    degToCompass(data.current.wind_deg) +
+    ' ' +
+    data.current.wind_speed +
+    ' mi/hr';
+  } else {
+    windData.textContent =
     degToCompass(data.current.wind_deg) +
     ' ' +
     data.current.wind_speed +
     ' km/hr';
-
-  feelsLikeData.textContent = KtoF(data.current.feels_like).toFixed(0) + '°F';
+  }
+  feelsLikeData.textContent = data.current.feels_like.toFixed(0) + '°F';
 
   pressureData.textContent = data.current.pressure + ' hPa';
 
   let visibility = '';
-  if (data.current.visibility >= 1000) {
-    visibility = data.current.visibility / 1000 + ' km';
+  if ((data.current.visibility >= 1000) && (units == 'metric')) {
+    visibility = (data.current.visibility / 1000).toFixed(1) + ' km';
+  } else if (units == 'imperial') {
+    visibility = (data.current.visibility / 5280).toFixed(1) + ' mi';
   } else {
     visibility = data.current.visibility + ' m';
   }
@@ -255,14 +271,22 @@ searchButton.onclick = async function () {
     let maxTemp = document.createElement('p');
     maxTemp.classList.add('maxTemp');
     maxTemp.classList.add('temp');
-    maxTemp.textContent =
-      'H: ' + KtoF(data.daily[i + 1].temp.max).toFixed(0) + '°F';
 
     let minTemp = document.createElement('p');
     minTemp.classList.add('minTemp');
     minTemp.classList.add('temp');
-    minTemp.textContent =
-      'L: ' + KtoF(data.daily[i + 1].temp.min).toFixed() + '°F';
+
+    if (units == 'imperial') {
+      maxTemp.textContent =
+        'H: ' + data.daily[i + 1].temp.max.toFixed(1) + '°F';
+      minTemp.textContent =
+        'L: ' + data.daily[i + 1].temp.min.toFixed(1) + '°F';
+    } else {
+      maxTemp.textContent =
+        'H: ' + data.daily[i + 1].temp.max.toFixed(1) + '°C';
+      minTemp.textContent =
+        'L: ' + data.daily[i + 1].temp.min.toFixed(1) + '°C';
+    }
 
     let weatherIcon = document.createElement('img');
     weatherIcon.classList.add('weatherIcon');
