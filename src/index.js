@@ -223,27 +223,28 @@ searchButton.onclick = async function () {
   sunsetData.textContent =
     sunsetTime.getHours() + ':' + prettyMinutes(sunsetTime.getMinutes());
 
-  chanceOfRainData.textContent = data.daily[0].pop;
+  chanceOfRainData.textContent = data.daily[0].pop + '%';
+  chanceOfRainData.textContent = chanceOfRainData.textContent.replace('0.', '');
   humidityData.textContent = data.current.humidity + '%';
   if (units == 'imperial') {
     windData.textContent =
-    degToCompass(data.current.wind_deg) +
-    ' ' +
-    data.current.wind_speed +
-    ' mi/hr';
+      degToCompass(data.current.wind_deg) +
+      ' ' +
+      data.current.wind_speed +
+      ' mi/hr';
   } else {
     windData.textContent =
-    degToCompass(data.current.wind_deg) +
-    ' ' +
-    data.current.wind_speed +
-    ' km/hr';
+      degToCompass(data.current.wind_deg) +
+      ' ' +
+      data.current.wind_speed +
+      ' km/hr';
   }
   feelsLikeData.textContent = data.current.feels_like.toFixed(0) + '°F';
 
   pressureData.textContent = data.current.pressure + ' hPa';
 
   let visibility = '';
-  if ((data.current.visibility >= 1000) && (units == 'metric')) {
+  if (data.current.visibility >= 1000 && units == 'metric') {
     visibility = (data.current.visibility / 1000).toFixed(1) + ' km';
   } else if (units == 'imperial') {
     visibility = (data.current.visibility / 5280).toFixed(1) + ' mi';
