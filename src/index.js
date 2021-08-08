@@ -5,6 +5,31 @@ let theDate = new Date();
 let formattedAddress = '';
 let future_dates = [];
 
+function degToCompass(num) {
+  // Taken from stack overflow and modified for JS
+  // https://stackoverflow.com/questions/7490660/converting-wind-direction-in-angles-to-text-words
+  let val = parseInt(num / 22.5 + 0.5);
+  let arr = [
+    'N',
+    'NNE',
+    'NE',
+    'ENE',
+    'E',
+    'ESE',
+    'SE',
+    'SSE',
+    'S',
+    'SSW',
+    'SW',
+    'WSW',
+    'W',
+    'WNW',
+    'NW',
+    'NNW',
+  ];
+  return arr[val % 16];
+}
+
 for (let i = 0; i < 6; i++) {
   //Create dates for next six days
   let future_date = new Date();
@@ -148,7 +173,6 @@ let chanceOfRainData = document.getElementById('chanceOfRainData');
 let humidityData = document.getElementById('humidityData');
 let windData = document.getElementById('windData');
 let feelsLikeData = document.getElementById('feelsLikeData');
-let precipitationData = document.getElementById('precipitationData');
 let pressureData = document.getElementById('pressureData');
 let visibilityData = document.getElementById('visibilityData');
 let uvIndexData = document.getElementById('uvIndexData');
@@ -192,6 +216,28 @@ searchButton.onclick = async function () {
   sunsetData.textContent =
     sunsetTime.getHours() + ':' + prettyMinutes(sunsetTime.getMinutes());
 
+  chanceOfRainData.textContent = data.daily[0].pop;
+  humidityData.textContent = data.current.humidity + '%';
+  windData.textContent =
+    degToCompass(data.current.wind_deg) +
+    ' ' +
+    data.current.wind_speed +
+    ' km/hr';
+
+  feelsLikeData.textContent = KtoF(data.current.feels_like).toFixed(0) + '°F';
+
+  pressureData.textContent = data.current.pressure + ' hPa';
+
+  let visibility = '';
+  if (data.current.visibility >= 1000) {
+    visibility = data.current.visibility / 1000 + ' km';
+  } else {
+    visibility = data.current.visibility + ' m';
+  }
+  visibilityData.textContent = visibility;
+
+  uvIndexData.textContent = data.current.uvi;
+
   for (let i = 0; i < future_dates.length; i++) {
     // Iterate through next 6 days and display forecast
     let forecastDay = document.createElement('span');
@@ -208,11 +254,13 @@ searchButton.onclick = async function () {
 
     let maxTemp = document.createElement('p');
     maxTemp.classList.add('maxTemp');
+    maxTemp.classList.add('temp');
     maxTemp.textContent =
       'H: ' + KtoF(data.daily[i + 1].temp.max).toFixed(0) + '°F';
 
     let minTemp = document.createElement('p');
     minTemp.classList.add('minTemp');
+    minTemp.classList.add('temp');
     minTemp.textContent =
       'L: ' + KtoF(data.daily[i + 1].temp.min).toFixed() + '°F';
 
