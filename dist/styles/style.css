@@ -202,9 +202,34 @@ span.forecastDay {
   text-align: center;
 }
 
-tr {
+#hourlyForecast {
+  text-align: center;
+}
+
+.tableRow {
+  justify-content: space-evenly;
+}
+
+#forecastTable {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+
+tr {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: solid #000;
+  border-width: 1px 1px;
+}
+
+th {
+  width: 24%;
+  text-align: center;
+  justify-content: space-between;
+  border: solid #000;
+  border-width: 0 1px;
 }

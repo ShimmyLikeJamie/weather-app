@@ -19,7 +19,7 @@
     </div>
     <div id="overview">
       <span id="today">
-        <p id="todayDay">Today:</p>
+        <h3 id="todayDay">Today:</h3>
         <p id="todayCurrentTemp" class="temp">Now:</p>
         <p id="todayMaxTemp" class="temp">H:</p>
         <p id="todayMinTemp" class="temp">L:</p>
@@ -70,12 +70,19 @@
       </div>
     </div>
     <div id="forecastDetails">
+      <h1 id='hourlyForecast'>Hourly Forecast</h1>
       <table id="forecastTable">
-        <tr>
-          <th>Day</th>
+        <tr class='headerRow'>
+          <th>Hours from now</th>
           <th>Chance of Rain</th>
           <th>Humidity</th>
           <th>Temperature</th>
+        </tr>
+        <tr class='tableRow'>
+          <td>1</td>
+          <td>0%</td>
+          <td>0%</td>
+          <td>0</td>
         </tr>
       </table>
     </div>

@@ -111,16 +111,6 @@ function getMonth(date) {
   }
 }
 
-function FtoC(temp) {
-  let celsius = ((temp - 32) * 5) / 9;
-  return celsius;
-}
-
-function CtoF(temp) {
-  let fahrenheit = (temp * 9) / 5 + 32;
-  return fahrenheit;
-}
-
 async function getLocation(request) {
   //Formats user search using Geolocation API
   try {
@@ -228,23 +218,23 @@ searchButton.onclick = async function () {
   humidityData.textContent = data.current.humidity + '%';
   if (units == 'imperial') {
     windData.textContent =
-    degToCompass(data.current.wind_deg) +
-    ' ' +
-    data.current.wind_speed +
-    ' mi/hr';
+      degToCompass(data.current.wind_deg) +
+      ' ' +
+      data.current.wind_speed +
+      ' mi/hr';
   } else {
     windData.textContent =
-    degToCompass(data.current.wind_deg) +
-    ' ' +
-    data.current.wind_speed +
-    ' km/hr';
+      degToCompass(data.current.wind_deg) +
+      ' ' +
+      data.current.wind_speed +
+      ' km/hr';
   }
   feelsLikeData.textContent = data.current.feels_like.toFixed(0) + '°F';
 
   pressureData.textContent = data.current.pressure + ' hPa';
 
   let visibility = '';
-  if ((data.current.visibility >= 1000) && (units == 'metric')) {
+  if (data.current.visibility >= 1000 && units == 'metric') {
     visibility = (data.current.visibility / 1000).toFixed(1) + ' km';
   } else if (units == 'imperial') {
     visibility = (data.current.visibility / 5280).toFixed(1) + ' mi';
@@ -305,5 +295,26 @@ searchButton.onclick = async function () {
     forecastDay.append(weatherIcon);
     forecastDay.append(humidity);
     forecast.append(forecastDay);
+
+    // Now for the hourly forecast stuff
+
+    let i = 1;
+    while (i <= 24) {
+      let tr = document.createElement('tr');
+      tr.classList.add('tableRow');
+      let hoursFromNow = document.createElement('td')
+      hoursFromNow.textContent = i;
+      let hourlyChanceOfRain = document.createElement('td')
+      hourlyChanceOfRain.textContent = data.hourly[i].pop + '%';
+      let hourlyHumidity = document.createElement('td')
+      hourlyHumidity.textContent = data.hourly[i].humidity + '%';
+      let hourlyTemperature = document.createElement('td');
+
+      if (units == 'imperial') {
+        hourlyTemperature.textContent = data.hourly[i].temp + '°F';
+      } else {
+        hourlyTemperature.textContent = data.hourly[i].temp + '°C';
+      }
+    }
   }
 };
