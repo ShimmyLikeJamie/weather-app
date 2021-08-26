@@ -23,6 +23,8 @@ let feelsLikeData = document.getElementById('feelsLikeData');
 let pressureData = document.getElementById('pressureData');
 let visibilityData = document.getElementById('visibilityData');
 let uvIndexData = document.getElementById('uvIndexData');
+let forecastTable = document.getElementById('forecastTable');
+let forecastDetails = document.getElementById('forecastDetails')
 let units = '';
 
 if (currentTemp.textContent.includes('F')) {
@@ -295,26 +297,38 @@ searchButton.onclick = async function () {
     forecastDay.append(weatherIcon);
     forecastDay.append(humidity);
     forecast.append(forecastDay);
-
-    // Now for the hourly forecast stuff
-
-    let i = 1;
-    while (i <= 24) {
-      let tr = document.createElement('tr');
-      tr.classList.add('tableRow');
-      let hoursFromNow = document.createElement('td')
-      hoursFromNow.textContent = i;
-      let hourlyChanceOfRain = document.createElement('td')
-      hourlyChanceOfRain.textContent = data.hourly[i].pop + '%';
-      let hourlyHumidity = document.createElement('td')
-      hourlyHumidity.textContent = data.hourly[i].humidity + '%';
-      let hourlyTemperature = document.createElement('td');
-
-      if (units == 'imperial') {
-        hourlyTemperature.textContent = data.hourly[i].temp + '°F';
-      } else {
-        hourlyTemperature.textContent = data.hourly[i].temp + '°C';
-      }
-    }
   }
+
+  // Now for the hourly forecast stuff
+
+  let j = 1;
+  while (j <= 24) {
+    let tr = document.createElement('tr');
+    tr.classList.add('tableRow');
+    let hoursFromNow = document.createElement('td');
+    hoursFromNow.textContent = j;
+    let hourlyChanceOfRain = document.createElement('td');
+    hourlyChanceOfRain.textContent = data.hourly[j].pop + '%';
+    hourlyChanceOfRain.textContent = hourlyChanceOfRain.textContent.replace('0.', '');
+    let hourlyHumidity = document.createElement('td');
+    hourlyHumidity.textContent = data.hourly[j].humidity + '%';
+    let hourlyTemperature = document.createElement('td');
+
+    if (units == 'imperial') {
+      hourlyTemperature.textContent = data.hourly[j].temp + '°F';
+    } else {
+      hourlyTemperature.textContent = data.hourly[j].temp + '°C';
+    }
+
+    tr.appendChild(hoursFromNow);
+    tr.appendChild(hourlyChanceOfRain);
+    tr.appendChild(hourlyHumidity);
+    tr.appendChild(hourlyTemperature);
+    forecastTable.appendChild(tr);
+    j += 1;
+  }
+  let attribution = document.createElement('div');
+  attribution.setAttribute('id', 'attribute');
+  attribution.textContent = 'Icons made by https://www.flaticon.com/authors/iconixar'
+  forecastDetails.appendChild(attribution);
 };
