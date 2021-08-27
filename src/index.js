@@ -27,7 +27,7 @@ let forecastTable = document.querySelector('tbody');
 let forecastDetails = document.getElementById('forecastDetails')
 let units = '';
 
-let allElementsWithTemps = [];
+let allElementsWithTemps = []; // So we can go through and change temps from C to F and vice versa
 
 if (currentTemp.textContent.includes('F')) {
   units = 'imperial';
@@ -209,6 +209,8 @@ searchButton.onclick = async function () {
     todayMaxTemp.textContent = 'H: ' + data.daily[0].temp.max.toFixed(1) + '°C';
     todayMinTemp.textContent = 'L: ' + data.daily[0].temp.min.toFixed(1) + '°C';
   }
+  allElementsWithTemps.push(todayMaxTemp);
+  allElementsWithTemps.push(todayMinTemp);
 
   todayWeatherIcon.setAttribute(
     'src',
@@ -241,6 +243,7 @@ searchButton.onclick = async function () {
       ' km/hr';
   }
   feelsLikeData.textContent = data.current.feels_like.toFixed(0) + '°F';
+  allElementsWithTemps.push(feelsLikeData);
 
   pressureData.textContent = data.current.pressure + ' hPa';
 
@@ -289,6 +292,8 @@ searchButton.onclick = async function () {
       minTemp.textContent =
         'L: ' + data.daily[i + 1].temp.min.toFixed(1) + '°C';
     }
+    allElementsWithTemps.push(maxTemp);
+    allElementsWithTemps.push(minTemp);
 
     let weatherIcon = document.createElement('img');
     weatherIcon.classList.add('weatherIcon');
@@ -328,6 +333,7 @@ searchButton.onclick = async function () {
     } else {
       hourlyTemperature.textContent = data.hourly[j].temp + '°C';
     }
+    allElementsWithTemps.push(hourlyTemperature);
 
     tr.appendChild(hoursFromNow);
     tr.appendChild(hourlyChanceOfRain);
