@@ -83,7 +83,7 @@ span.forecastDay {
 }
 
 #forecastDetails {
-  height: 60%;
+  height: auto;
 }
 
 #logoContainer {
@@ -221,15 +221,26 @@ tr {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   border: solid #000;
   border-width: 1px 1px;
 }
 
 th {
-  width: 24%;
+  width: 25%;
   text-align: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  border: solid #000;
+  border-width: 1px 1px;
+  background-color: #2e2c30;
+  color:rgb(218, 218, 218);
+}
+
+td {
+  text-align: center;
+  width: 25%;
   border: solid #000;
   border-width: 0 1px;
+  background-color: #c7ecff;
+  color: #000;
 }

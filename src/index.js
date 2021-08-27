@@ -23,9 +23,11 @@ let feelsLikeData = document.getElementById('feelsLikeData');
 let pressureData = document.getElementById('pressureData');
 let visibilityData = document.getElementById('visibilityData');
 let uvIndexData = document.getElementById('uvIndexData');
-let forecastTable = document.getElementById('forecastTable');
+let forecastTable = document.querySelector('tbody');
 let forecastDetails = document.getElementById('forecastDetails')
 let units = '';
+
+let allElementsWithTemps = [];
 
 if (currentTemp.textContent.includes('F')) {
   units = 'imperial';
@@ -111,6 +113,13 @@ function getMonth(date) {
     case 11:
       return 'Dec';
   }
+}
+
+function CtoF (value) {
+  return (value * 9 / 5) + 32;
+}
+function FtoC (value) {
+  return (value - 32) * 5/9;
 }
 
 async function getLocation(request) {
