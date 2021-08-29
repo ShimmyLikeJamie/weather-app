@@ -24,7 +24,8 @@ let pressureData = document.getElementById('pressureData');
 let visibilityData = document.getElementById('visibilityData');
 let uvIndexData = document.getElementById('uvIndexData');
 let forecastTable = document.querySelector('tbody');
-let forecastDetails = document.getElementById('forecastDetails')
+let forecastDetails = document.getElementById('forecastDetails');
+let CorF = document.getElementById('CorFButton');
 let units = '';
 
 let allElementsWithTemps = []; // So we can go through and change temps from C to F and vice versa
@@ -115,11 +116,11 @@ function getMonth(date) {
   }
 }
 
-function CtoF (value) {
-  return (value * 9 / 5) + 32;
+function CtoF(value) {
+  return (value * 9) / 5 + 32;
 }
-function FtoC (value) {
-  return (value - 32) * 5/9;
+function FtoC(value) {
+  return ((value - 32) * 5) / 9;
 }
 
 async function getLocation(request) {
@@ -199,16 +200,15 @@ searchButton.onclick = async function () {
   todayCity.textContent = formattedAddress;
 
   if (units == 'imperial') {
-    todayCurrentTemp.textContent =
-      'Now: ' + data.current.temp.toFixed(1) + '°F';
-    todayMaxTemp.textContent = 'H: ' + data.daily[0].temp.max.toFixed(1) + '°F';
-    todayMinTemp.textContent = 'L: ' + data.daily[0].temp.min.toFixed(1) + '°F';
+    todayCurrentTemp.textContent = Math.round(data.current.temp) + '°F';
+    todayMaxTemp.textContent = Math.round(data.daily[0].temp.max) + '°F';
+    todayMinTemp.textContent = Math.round(data.daily[0].temp.min) + '°F';
   } else {
-    todayCurrentTemp.textContent =
-      'Now: ' + data.current.temp.toFixed(1) + '°C';
-    todayMaxTemp.textContent = 'H: ' + data.daily[0].temp.max.toFixed(1) + '°C';
-    todayMinTemp.textContent = 'L: ' + data.daily[0].temp.min.toFixed(1) + '°C';
+    todayCurrentTemp.textContent = Math.round(data.current.temp) + '°C';
+    todayMaxTemp.textContent = Math.round(data.daily[0].temp.max) + '°C';
+    todayMinTemp.textContent = Math.round(data.daily[0].temp.min) + '°C';
   }
+  allElementsWithTemps.push(todayCurrentTemp);
   allElementsWithTemps.push(todayMaxTemp);
   allElementsWithTemps.push(todayMinTemp);
 
@@ -249,9 +249,9 @@ searchButton.onclick = async function () {
 
   let visibility = '';
   if (data.current.visibility >= 1000 && units == 'metric') {
-    visibility = (data.current.visibility / 1000).toFixed(1) + ' km';
+    visibility = Math.round(data.current.visibility / 1000) + ' km';
   } else if (units == 'imperial') {
-    visibility = (data.current.visibility / 5280).toFixed(1) + ' mi';
+    visibility = Math.round(data.current.visibility / 5280) + ' mi';
   } else {
     visibility = data.current.visibility + ' m';
   }
@@ -282,15 +282,11 @@ searchButton.onclick = async function () {
     minTemp.classList.add('temp');
 
     if (units == 'imperial') {
-      maxTemp.textContent =
-        'H: ' + data.daily[i + 1].temp.max.toFixed(1) + '°F';
-      minTemp.textContent =
-        'L: ' + data.daily[i + 1].temp.min.toFixed(1) + '°F';
+      maxTemp.textContent = Math.round(data.daily[i + 1].temp.max) + '°F';
+      minTemp.textContent = Math.round(data.daily[i + 1].temp.min) + '°F';
     } else {
-      maxTemp.textContent =
-        'H: ' + data.daily[i + 1].temp.max.toFixed(1) + '°C';
-      minTemp.textContent =
-        'L: ' + data.daily[i + 1].temp.min.toFixed(1) + '°C';
+      maxTemp.textContent = Math.round(data.daily[i + 1].temp.max) + '°C';
+      minTemp.textContent = Math.round(data.daily[i + 1].temp.min) + '°C';
     }
     allElementsWithTemps.push(maxTemp);
     allElementsWithTemps.push(minTemp);
@@ -323,15 +319,18 @@ searchButton.onclick = async function () {
     hoursFromNow.textContent = j;
     let hourlyChanceOfRain = document.createElement('td');
     hourlyChanceOfRain.textContent = data.hourly[j].pop + '%';
-    hourlyChanceOfRain.textContent = hourlyChanceOfRain.textContent.replace('0.', '');
+    hourlyChanceOfRain.textContent = hourlyChanceOfRain.textContent.replace(
+      '0.',
+      ''
+    );
     let hourlyHumidity = document.createElement('td');
     hourlyHumidity.textContent = data.hourly[j].humidity + '%';
     let hourlyTemperature = document.createElement('td');
 
     if (units == 'imperial') {
-      hourlyTemperature.textContent = data.hourly[j].temp + '°F';
+      hourlyTemperature.textContent = Math.round(data.hourly[j].temp) + '°F';
     } else {
-      hourlyTemperature.textContent = data.hourly[j].temp + '°C';
+      hourlyTemperature.textContent = Math.round(data.hourly[j].temp) + '°C';
     }
     allElementsWithTemps.push(hourlyTemperature);
 
@@ -344,6 +343,30 @@ searchButton.onclick = async function () {
   }
   let attribution = document.createElement('div');
   attribution.setAttribute('id', 'attribute');
-  attribution.textContent = 'Icons made by https://www.flaticon.com/authors/iconixar'
+  attribution.textContent =
+    'Icons made by https://www.flaticon.com/authors/iconixar';
   forecastDetails.appendChild(attribution);
+};
+
+CorF.onclick = function () {
+  if (allElementsWithTemps.length == 0) {
+    console.log('No elements with temps!');
+    return null;
+  }
+  let imperial;
+  currentTemp.textContent == '°F' ? (imperial = true) : (imperial = false);
+  let i = 0;
+  while (i < allElementsWithTemps.length) {
+    console.log(allElementsWithTemps[i].textContent.replace(/\D/g, ''));
+    let num = allElementsWithTemps[i].textContent.replace(/\D/g, '');
+    if (imperial == true) {
+      allElementsWithTemps[i].textContent = Math.round(FtoC(parseInt(num))) + '°C';
+    } else {
+      allElementsWithTemps[i].textContent = Math.round(CtoF(parseInt(num))) + '°F';
+    }
+    i += 1;
+  }
+  imperial == true
+    ? (currentTemp.textContent = '°C')
+    : (currentTemp.textContent = '°F');
 };
